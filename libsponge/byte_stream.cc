@@ -56,7 +56,9 @@ std::string ByteStream::read(const size_t len) {
     return _read;
 }
 
-void ByteStream::end_input() {}
+void ByteStream::end_input() {
+  _input_end = true;
+}
 
 bool ByteStream::input_ended() const { return _input_end; }
 
@@ -64,10 +66,10 @@ size_t ByteStream::buffer_size() const { return _mem.size(); }
 
 bool ByteStream::buffer_empty() const { return _mem.empty(); }
 
-bool ByteStream::eof() const { return _mem.empty() and _; }
+bool ByteStream::eof() const { return _mem.empty() and _input_end; }
 
-size_t ByteStream::bytes_written() const { return {}; }
+size_t ByteStream::bytes_written() const { return _write_count; }
 
-size_t ByteStream::bytes_read() const { return {}; }
+size_t ByteStream::bytes_read() const { return _read_count; }
 
-size_t ByteStream::remaining_capacity() const { return {}; }
+size_t ByteStream::remaining_capacity() const { return _capacity - _mem.size(); }
